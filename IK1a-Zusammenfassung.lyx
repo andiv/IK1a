@@ -1,0 +1,1954 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass report
+\begin_preamble
+\usepackage{tikz,pgfplots}
+%\usepackage{tikz-3dplot,polynom,cancel}
+\usetikzlibrary{matrix,arrows,calc,decorations,snakes}
+\usepackage{latexsym,stmaryrd,stackrel,icomma,braket}
+\usepackage[explicit]{titlesec}
+
+% Inhaltsverzeichnis
+\usepackage{tocloft}
+\tocloftpagestyle{fancy}
+
+\renewcommand{\cftchapindent}{1 em}
+\renewcommand{\cftchapnumwidth}{1.5 em}
+
+\renewcommand{\cftsecindent}{2.7 em}
+\renewcommand{\cftsecnumwidth}{2.5em}
+
+\renewcommand{\cftsubsecindent}{5.2 em}
+\renewcommand{\cftsubsecnumwidth}{3.8 em}
+
+\renewcommand{\cftsubsubsecindent}{9 em}
+\renewcommand{\cftsubsubsecnumwidth}{4.5 em}
+
+% Mathe-Operatoren
+\DeclareMathOperator*{\exsop}{\exists}
+\DeclareMathOperator*{\exsgop}{\exists!}
+\DeclareMathOperator*{\fallop}{\forall}
+\DeclareMathOperator*{\bcupdop}{\dot{\bigcup}}
+\DeclareMathOperator*{\bcapdop}{\dot{\bigcap}}
+
+% Rotieren
+\newcommand{\Rotate}[1]{
+\begin{tikzpicture}
+\node[rotate=90] {\ensuremath{#1}};
+\end{tikzpicture}
+}
+
+%QED-Zeichen (Box)
+\newcommand{\qed}{\ensuremath{\Box}}
+\newcommand{\qqed}[1][\arabic{chapter}.\arabic{section}\ifnum\arabic{subsection}>0{.\arabic{subsection}}\fi]{\hspace*{1mm}\hfill\qed\ensuremath{_{\text{#1}}}}
+
+% Mengen Modulo
+\newcommand{\moduloT}[2]{
+\mbox{\raisebox{0.6ex}{\ensuremath{\displaystyle #1}}
+{\hspace*{-1.5mm}\Large /}
+\raisebox{-0.6ex}{\hspace*{-1.5mm}\ensuremath{\displaystyle #2}}
+}}
+
+% Links Modulo
+\newcommand{\lmoduloT}[2]{
+\mbox{\raisebox{-0.6ex}{\ensuremath{\displaystyle #1}}
+{\hspace*{-1.5mm}\Large \ensuremath{\backslash}}
+\raisebox{0.6ex}{\hspace*{-1.5mm}\ensuremath{\displaystyle #2}}
+}}
+
+% Für Z/2Z, um nicht soviel schreiben zu müssen
+\newcommand{\modloT}[2]{\moduloT{ \mathbb{#1}}{#2\mathbb{#1}}}
+
+%Die Modulo-Kommandos in klein, für die Darstellungen unter Quantoren.
+\newcommand{\moduloScriptT}[2]{
+\mbox{\raisebox{0.4ex}{\scriptsize\ensuremath{\displaystyle #1}}
+{\hspace*{-1.5mm}\footnotesize /}
+\raisebox{-0.4ex}{\hspace*{-1.5mm}\scriptsize\ensuremath{\displaystyle #2}}
+}}
+
+\newcommand{\lmoduloScriptT}[2]{
+\mbox{\raisebox{-0.4ex}{\scriptsize\ensuremath{\displaystyle #1}}
+{\hspace*{-1.5mm}\footnotesize \ensuremath{\backslash}}
+\raisebox{0.4ex}{\hspace*{-1.5mm}\scriptsize\ensuremath{\displaystyle #2}}
+}}
+
+\newcommand{\modloScriptT}[2]{\moduloScriptT{ \mathbb{#1}}{#2\mathbb{#1}}}
+
+% stehendes Winkelzeichen
+\newcommand{\winkel}{
+\begin{tikzpicture}[scale=0.25]
+\draw ({-2+3^(1/2)},0) -- (0,1) -- ({2-3^(1/2)},0);
+\draw ($(0,1) + ({cos(235)*0.7},{sin(315)*0.7})$) arc (235:315:0.7);
+\end{tikzpicture}}
+
+% Wurzel mit Häkchen
+\newcommand{\hsqrt}[2][{}]{\setbox0=\hbox{$\sqrt[#1]{\phantom{|}\!\! #2\hspace*{1pt}}$}\dimen0=\ht0
+  \advance\dimen0-0.2\ht0
+  \setbox2=\hbox{\vrule height\ht0 depth -\dimen0}
+  {\box0\lower0.4pt\box2}}
+
+% alphabetische Aufzählung
+\newcounter{ale}
+\newcommand{\abc}{\stepcounter{ale}\item[\alph{ale})]}
+\newenvironment{abclist}{\begin{itemize} \setcounter{ale}{0}}{\end{itemize}}
+
+%klein-römische Aufzählung
+\newcounter{ale2}
+\newcommand{\iii}{\stepcounter{ale2}\item[\textnormal{\roman{ale2})}]}
+\newenvironment{iiilist}{\begin{itemize} \setcounter{ale2}{0}}{\end{itemize}}
+
+% Damit nicht immer "Kapitel 1" etc. über der Kapitelüberschrift steht
+\titleformat{\chapter}
+  {\huge\bfseries}
+  {\textrm{\thechapter} }{0pt}
+  {\textrm{#1} \thispagestyle{fancy}
+  }
+
+% Neudefinition der Abschnittsmarker für die Kopfzeile
+\renewcommand\partmark[1]{\markboth{#1}{}}
+\renewcommand\chaptermark[1]{\markright{\arabic{chapter} #1}}
+\renewcommand\sectionmark[1]{}
+\renewcommand\subsectionmark[1]{}
+
+% Kopf- und Fußzeile
+% Höhe der Kopfzeile
+\setlength{\headheight}{14pt}
+% obere Trennlinie
+%\renewcommand{\headrulewidth}{0.4pt}
+\fancyhf{} %alle Kopf- und Fußzeilenfelder bereinigen
+\fancyhead[L]{\textbf{IK1a - Experimentelle Quantenmechanik}} %Kopfzeile links
+%\fancyhead[C]{\leftmark} %zentrierte Kopfzeile
+\fancyhead[R]{\rightmark} %Kopfzeile rechts
+\fancyfoot[C]{\thepage\quad\!\!\!\slash\quad\!\!\!\pageref{END-front}} %Seitenzahl der Front-Matter
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language ngerman
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 11
+\spacing single
+\use_hyperref true
+\pdf_title "Experimentelle Quantenmechanik"
+\pdf_author "Andreas Völklein"
+\pdf_keywords "Experimentelle Quantenmechanik, Physik"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered true
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref page
+\pdf_pdfusetitle false
+\papersize a4paper
+\use_geometry true
+\use_amsmath 2
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\use_refstyle 0
+\index Stichwortverzeichnis
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.6cm
+\topmargin 2.6cm
+\rightmargin 2.6cm
+\bottommargin 3.5cm
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip smallskip
+\quotes_language german
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\bullet 0 0 0 -1
+\bullet 1 0 9 -1
+\bullet 2 0 15 -1
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Vorlage: Kommutatives Diagramm
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[description/.style={fill=white,inner sep=2pt}]
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+matrix (m) [matrix of math nodes, row sep=3em, column sep=2.5em, text height=1.5ex
+, text depth=0.25ex] { G & & G' 
+\backslash
+
+\backslash
+  & a & 
+\backslash
+
+\backslash
+ };
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+path[->,font=
+\backslash
+scriptsize] (m-1-1) edge node[auto] {$ 
+\backslash
+varphi $} (m-1-3) edge node[description] {$ 
+\backslash
+Psi $} (m-2-2) (m-1-3) edge node[auto] {$ 
+\backslash
+Phi $} (m-2-2); 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Vorlage: Plot mit pgfplots
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\backslash
+begin{axis}[width=13cm, axis x line=middle, axis y line=middle, xtick={0},
+ ytick={0}, xlabel=$q$,domain=-6:6,samples=300]
+\end_layout
+
+\begin_layout Plain Layout
+
+%  
+\backslash
+addplot[green,mark=none] {(8*x^3-12*x)*exp(-x^2/2)*0.5};
+\end_layout
+
+\begin_layout Plain Layout
+
+%  
+\backslash
+addlegendentry{$
+\backslash
+psi_3 (q)$}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+addplot[red,mark=none] {x^2*0.08};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+addlegendentry{$V(q)$}
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+addplot[blue,mark=none] {(0.256*x^8-3.584*x^6+13.440*x^4-13.440*x^2+1.680)*exp(-x^2/2
+)};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+addlegendentry{$
+\backslash
+psi_8 (q)$}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+addplot[orange,mark=none] {((0.256*x^8-3.584*x^6+13.440*x^4-13.440*x^2+1.680)*exp(-x^
+2/2))^2*0.5};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+addlegendentry{$
+\backslash
+abs{
+\backslash
+psi_8 (q)}^2$}
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\backslash
+end{axis}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Vorlage: Funktions-Plot
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}[domain=0:4]
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[very thin,color=gray] (-0.1,-1.1) grid (3.9,3.9);
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (-0.2,0) -- (4.2,0) node[right] {$x$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[->] (0,-1.2) -- (0,4.2) node[above] {$f(x)$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[color=red] plot (
+\backslash
+x,
+\backslash
+x) node[right] {$f(x) =x$};
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw[color=blue] plot (
+\backslash
+x,{sin(
+\backslash
+x r)}) node[right] {$f(x) = 
+\backslash
+sin x$}; 
+\backslash
+draw[color=orange] plot (
+\backslash
+x,{0.05*exp(
+\backslash
+x)}) node[right] {$f(x) = 
+\backslash
+frac{1}{20} 
+\backslash
+mathrm e^x$};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Vorlage: Bezier-Kurve
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+%Kreis
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw (-1,0) ..
+ controls (-1,0.555) and (-0.555,1) ..
+ (0,1)
+\end_layout
+
+\begin_layout Plain Layout
+
+               ..
+ controls (0.555,1) and (1,0.555) ..
+ (1,0)
+\end_layout
+
+\begin_layout Plain Layout
+
+               ..
+ controls (1,-0.555) and (0.555,-1) ..
+ (0,-1)
+\end_layout
+
+\begin_layout Plain Layout
+
+               ..
+ controls (-0.555,-1) and (-1,-0.555) ..
+ (-1,0); 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Vorlage: Krumme geschlossene Kurve
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{tikzpicture}
+\end_layout
+
+\begin_layout Plain Layout
+
+  %Kreis
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw plot[smooth cycle,tension=1] coordinates{(0,-1) (1,0) (0,1) (-1,0)};
+\end_layout
+
+\begin_layout Plain Layout
+
+  %Krumm
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+draw plot[smooth cycle,tension=.7,yshift=-70] coordinates{(0,-1) (0.5,-0.3)
+ (1,0) (0.5,0.8) (0,1) (-0.3,0.3) (-1,0)};
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{tikzpicture}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+TODO: 
+\backslash
+begin{iiilist} als LyX-Kommandos einbauen.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\norm}[1]{\left\lVert #1\right\rVert }
+{\left\Vert #1\right\Vert }
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\abs}[1]{\left\lvert #1\right\rvert }
+{\left|#1\right|}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\mins}{\text{-}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset FormulaMacro
+\renewcommand{\BRA}[1]{\Bra{#1}}
+{\left<#1\right|}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset FormulaMacro
+\renewcommand{\KET}[1]{\Ket{#1}}
+{\left|#1\right>}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset FormulaMacro
+\renewcommand{\BraKet}[1]{\Braket{#1}}
+{\left\langle #1\right\rangle }
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\exs}{\exsop}
+{\text{\exists}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\exsg}{\exsgop}
+{\text{\exists!}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\fall}{\fallop}
+{\text{\forall}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\bcupd}{\bcupdop}
+{\text{\dot{\bigcup}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\bcapd}{\bcapdop}
+{\text{\dot{\bigcap}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\sr}[3]{\underset{#3}{\overset{#2}{#1}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\dd}{\textnormal{d}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\ii}{\textbf{i}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\modulo}[2]{\moduloT{#1}{#2}}
+{#1/#2}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\lmodulo}[2]{\lmoduloT{#1}{#2}}
+{#1\backslash#2}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\modlo}[2]{\modloT{#1}{#2}}
+{\mathbb{#1}/#2\mathbb{#1}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\moduloScript}[2]{\moduloScriptT{#1}{#2}}
+{{\scriptstyle #1/#2}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\lmoduloScript}[2]{\lmoduloScriptT{#1}{#2}}
+{{\scriptstyle #1\backslash#2}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\renewcommand{\modloScript}[2]{\modloScriptT{#1}{#2}}
+{{\scriptstyle \mathbb{#1}/#2\mathbb{#1}}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{roman}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Title
+
+\series bold
+\size giant
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace*{-45mm}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Integrierter Kurs Ia
+\begin_inset Newline newline
+\end_inset
+
+Experimentelle Quantenmechanik
+\begin_inset Newline newline
+\end_inset
+
+Zusammenfassung
+\end_layout
+
+\begin_layout Author
+
+\shape italic
+\size small
+Vorlesung von
+\begin_inset Newline newline
+\end_inset
+
+
+\noun on
+Prof.
+ Dr.
+ Jascha Repp
+\noun default
+
+\begin_inset Newline newline
+\end_inset
+
+im Sommersemester 2012
+\begin_inset Newline newline
+\end_inset
+
+Überarbeitung und Textsatz in LyX von
+\begin_inset Newline newline
+\end_inset
+
+
+\noun on
+Andreas Völklein
+\begin_inset Newline newline
+\end_inset
+
+
+\shape default
+\noun default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace*{10mm}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename unir.png
+	width 15cm
+	clip
+
+\end_inset
+
+
+\shape italic
+\noun on
+
+\begin_inset Newline newline
+\end_inset
+
+
+\shape default
+\noun default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace*{3mm}
+\end_layout
+
+\end_inset
+
+
+\size default
+
+\begin_inset Newline newline
+\end_inset
+
+Stand: 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+today
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset Newpage newpage
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+fancyhead[R]{Inhaltsverzeichnis}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+fancyhead[C]{}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+label{END-front}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{arabic}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+fancyfoot[C]{
+\backslash
+thepage
+\backslash
+quad
+\backslash
+!
+\backslash
+!
+\backslash
+!
+\backslash
+slash
+\backslash
+quad
+\backslash
+!
+\backslash
+!
+\backslash
+!
+\backslash
+pageref{END}} % Seitenzahl des Hauptteils
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+fancyhead[R]{
+\backslash
+rightmark}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+fancyhead[C]{
+\backslash
+leftmark}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%DATE: Mo 16.04.2012
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+setcounter{chapter}{-1}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Entwicklung der Quantenmechanik
+\end_layout
+
+\begin_layout Section
+Meilensteine der Entwicklung der Quantenmechanik
+\end_layout
+
+\begin_layout Itemize
+Schwarzkörperstrahlung 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ 
+\begin_inset Formula $\Delta E=h\nu$
+\end_inset
+
+ (Planck)
+\end_layout
+
+\begin_layout Itemize
+Photoelektrischer Effekt 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ 
+\begin_inset Formula $\Delta E=h\nu$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Compton-Effekt 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ Röntgenstrahlung zeigt Teilchencharakter: 
+\begin_inset Formula $\vec{p}=\hbar\vec{k}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+de-Broglie-Wellenlänge: 
+\begin_inset Formula ${\displaystyle \lambda=\frac{h}{p}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Davisson, Germer: Elektronenbeugung
+\end_layout
+
+\begin_layout Itemize
+Stern, Gerlach: Quantisierung der Ausrichtung des magnetischen Momentes
+\end_layout
+
+\begin_layout Section
+Grundlagen der Quantenmechanik
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\varepsilon_{0} & =h\nu & \Rightarrow\quad E_{\text{op}} & =\ii\hbar\partial_{t}\\
+\vec{p} & =\hbar\vec{k} & \Rightarrow\quad\vec{p}_{\text{op}} & =-\ii\hbar\vec{\nabla}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Schrödingergleichung:
+\begin_inset Formula 
+\begin{align*}
+-\frac{\hbar^{2}}{2m}\vec{\nabla}^{2}\psi+V\left(\vec{r},t\right)\psi & =\ii\hbar\partial_{t}\psi=E\psi
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Messprozess: Observablen, Wahrscheinlichkeitsinterpretation und Kollaps
+ von 
+\begin_inset Formula $\psi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Ein Elektron im Kernfeld: Wasserstoff
+\end_layout
+
+\begin_layout Section
+Lösungen der Schrödingergleichung für Coulomb-Potential
+\end_layout
+
+\begin_layout Itemize
+Zentralpotential 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ Separation der Variablen
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Drehimpulserhaltung
+\end_layout
+
+\begin_layout Itemize
+Winkelteil 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ Eigenfunktionen 
+\begin_inset Formula $Y_{lm}$
+\end_inset
+
+ mit 
+\begin_inset Formula $\hat{L}^{2}=\hbar^{2}\left(l+1\right)l$
+\end_inset
+
+ und 
+\begin_inset Formula $L_{z}=m_{l}\hbar$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Entartung bezüglich 
+\begin_inset Formula $m_{l}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Radialteil für Coulomb-Potential
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+zufällige Entartung für 
+\begin_inset Formula $l$
+\end_inset
+
+ (Radialteil hängt trotzdem von 
+\begin_inset Formula $l$
+\end_inset
+
+ ab)
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Quantenzahlen:
+\begin_inset Formula 
+\begin{align*}
+n & =1,2,\ldots\\
+l & =0,1,\ldots\\
+m & =-l,-l+1,\ldots,l-1,l
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Energie:
+\begin_inset Formula 
+\begin{align*}
+E & =-E_{\text{Ry}}\cdot\frac{Z^{2}}{n^{2}} & E_{\text{Ry}} & \approx13{,}6\,\text{eV}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Atomorbitale: 
+\begin_inset Formula $1s,\ 2s,\ 2p,\ 3s,\ldots$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Zusätzlich: Spin des Elektrons 
+\begin_inset Formula ${\displaystyle s=\frac{1}{2}}$
+\end_inset
+
+, 
+\begin_inset Formula ${\displaystyle m_{s}=-\frac{1}{2},\ldots,\frac{1}{2}}$
+\end_inset
+
+, 
+\begin_inset Formula $g_{s}\approx2$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Einheitliche Algebra für alle quantenmechanischen Drehimpulse
+\end_layout
+
+\begin_layout Section
+Feinstruktur, Hyperfeinstruktur und Lamb-Verschiebung
+\end_layout
+
+\begin_layout Itemize
+Feinstruktur: Wechselwirkung zwischen Spin und Bahndrehimpuls
+\begin_inset Newline newline
+\end_inset
+
+Kommt aus der Relativistik
+\begin_inset Newline newline
+\end_inset
+
++ weitere relativistische Korrekturen
+\end_layout
+
+\begin_layout Itemize
+Spin-Bahn-Kopplung: Spin und Bahndrehimpuls möglichst antiparallel
+\end_layout
+
+\begin_layout Itemize
+Lamb-Shift: QED-Effekt
+\end_layout
+
+\begin_layout Itemize
+Hyperfeinstruktur: Wechselwirkung zwischen Kernmoment und Elektronenhülle
+\begin_inset Formula 
+\begin{align*}
+\Delta E_{\text{HFS}} & \approx\mu\text{eV}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Wechselwirkung mit Feldern
+\end_layout
+
+\begin_layout Itemize
+Statisch
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Zeeman: 
+\begin_inset Formula ${\displaystyle \Delta E=\mu_{B}g_{s}\vec{B}\frac{\vec{s}_{\text{op}}}{\hbar}}$
+\end_inset
+
+; analog bei 
+\begin_inset Formula $\vec{l}$
+\end_inset
+
+ bzw.
+ 
+\begin_inset Formula $\vec{j}$
+\end_inset
+
+ (
+\begin_inset Formula $g_{l}=1$
+\end_inset
+
+, 
+\begin_inset Formula $g_{s}\approx2$
+\end_inset
+
+, 
+\begin_inset Formula $1\le g_{j}\le2$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Itemize
+Stark: quadratischer Effekt; linear bei Entartung bezüglich 
+\begin_inset Formula $l$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ generiert Superpositionszustände
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+oszillierende Felder, also Wechselwirkung mit Licht
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Einstein-Koeffizienten: 
+\begin_inset Formula $A_{ik},B_{ki},B_{ik}$
+\end_inset
+
+ mit 
+\begin_inset Formula $B_{ik}=B_{ki}$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Laser durch Besetzungsinversion
+\end_layout
+
+\begin_layout Itemize
+optische Auswahlregeln
+\begin_inset Newline newline
+\end_inset
+
+Elektrischer Dipol: 
+\begin_inset Formula $\Delta l=\pm1$
+\end_inset
+
+, 
+\begin_inset Formula $\Delta m_{l}\in\left\{ 0,\pm1\right\} $
+\end_inset
+
+ (einfachster Fall)
+\end_layout
+
+\begin_layout Itemize
+Linienbreiten
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+endliche Lebensdauer 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Lorentz mit 
+\begin_inset Formula ${\displaystyle \Gamma\sim\frac{1}{\tau}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Doppler 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Gauß 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ kann durch 2 Photonenabsorbtion eliminiert werden
+\end_layout
+
+\begin_layout Itemize
+Stoß 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Abhängig vom Druck 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ eliminierbar
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Chapter
+Mehrere Elektronen im Kernfeld
+\end_layout
+
+\begin_layout Section
+Fermionen, Bosonen und das Pauli-Prinzip
+\end_layout
+
+\begin_layout Itemize
+Quantenmechanische Teilchen sind ununterscheidbar 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ Beschreibung durch 
+\emph on
+eine
+\emph default
+ Wellenfunktion
+\end_layout
+
+\begin_layout Itemize
+Fermionen: halbzahliger Spin
+\begin_inset Newline newline
+\end_inset
+
+jeder quantenmechanische Zustand ist maximal 
+\emph on
+einfach
+\emph default
+ durch Fermionen besetzbar
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ Pauli-Verbot
+\end_layout
+
+\begin_layout Itemize
+Fermi-Dirac-Verteilung
+\begin_inset Formula 
+\begin{align*}
+n\left(E\right) & =\frac{1}{\exp\left(\frac{E-\mu}{k_{B}T}\right)+1}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Fermionen: Gesamtwellenfunktion antisymmetrisch gegenüber Vertauschung von
+ je zwei Teilchen
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Antisymmetrie entweder in Spin- oder im Ortswellenfunktion
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+antisymmetrisch
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{\sqrt{2}}\left(\uparrow\downarrow-\downarrow\uparrow\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Singulett
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+symmetrisch
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\uparrow\uparrow$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Triplett
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{\sqrt{2}}\left(\uparrow\downarrow+\downarrow\uparrow\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\downarrow\downarrow$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Korrelation der Elektronen hängt von der Symmetrie der Ortswellenfunktion
+ ab 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ Austausch-Wechselwirkung und Austausch-Energie
+\end_layout
+
+\begin_layout Section
+Helium-Atom
+\end_layout
+
+\begin_layout Itemize
+getrennte Singulett- und Triplett-Systeme bei unterschiedlicher Energie
+\end_layout
+
+\begin_layout Itemize
+optische Auswahlregeln verbieten Intersystemübergänge
+\end_layout
+
+\begin_layout Itemize
+weniger streng bei schwereren Atomen durch die 
+\begin_inset Formula $L$
+\end_inset
+
+-
+\begin_inset Formula $S$
+\end_inset
+
+-Kopplung
+\end_layout
+
+\begin_layout Section
+Alkali-Atome
+\end_layout
+
+\begin_layout Itemize
+einfaches Modell: Abschirmung der Kernladung durch innere Schalen
+\end_layout
+
+\begin_layout Itemize
+Wasserstoffähnlich, Aufhebung der 
+\begin_inset Formula $l$
+\end_inset
+
+-Entartung
+\end_layout
+
+\begin_layout Section
+Drehimpulskopplung
+\end_layout
+
+\begin_layout Standard
+leichte Atome: 
+\begin_inset Formula $L$
+\end_inset
+
+-
+\begin_inset Formula $S$
+\end_inset
+
+-Kopplung 
+\begin_inset Formula $\xrightarrow{\text{kontinuierlicher Übergang}}$
+\end_inset
+
+ schwere Atome: 
+\begin_inset Formula $j$
+\end_inset
+
+-
+\begin_inset Formula $j$
+\end_inset
+
+-Kopplung
+\end_layout
+
+\begin_layout Section
+Hund'sche Regeln und das Periodensystem
+\end_layout
+
+\begin_layout Itemize
+Schalenmodell, Schalen 
+\begin_inset Formula $K,L,M,\ldots$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Hund'sche Regeln geordnet nach Priorität:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Volle (Unter-)Schalen 
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ 
+\begin_inset Formula $S=0$
+\end_inset
+
+, 
+\begin_inset Formula $L=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $S=\text{max}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $L=\text{max}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $<$
+\end_inset
+
+ halb voll: 
+\begin_inset Formula $J=\abs{L-S}$
+\end_inset
+
+; 
+\begin_inset Formula $>$
+\end_inset
+
+ halb voll: 
+\begin_inset Formula $J=L+S$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Chapter
+Moleküle
+\end_layout
+
+\begin_layout Standard
+Born-Oppenheimer-Näherung
+\end_layout
+
+\begin_layout Section
+Das Wasserstoff-Molekül 
+\begin_inset Formula $\text{H}_{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+generiere Molekülorbitale aus Atomorbitalen, zum Beispiel mit LCAO
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ bindende (
+\begin_inset Formula $=$
+\end_inset
+
+gerade 
+\begin_inset Formula $\psi$
+\end_inset
+
+) und antibindende (
+\begin_inset Formula $=$
+\end_inset
+
+ungerade 
+\begin_inset Formula $\psi$
+\end_inset
+
+) Zustände
+\end_layout
+
+\begin_layout Enumerate
+generiere Mehrteilchen-
+\begin_inset Formula $\psi$
+\end_inset
+
+ aus Einteilchen-
+\begin_inset Formula $\psi$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Besonderheit für 
+\begin_inset Formula $H_{2}$
+\end_inset
+
+: Heitler-London-Ansatz
+\end_layout
+
+\begin_layout Standard
+Energieschemata für Molekülorbitale:
+\begin_inset Newline newline
+\end_inset
+
+TODO: Abb4
+\end_layout
+
+\begin_layout Section
+Chemische Bindung und Hybridisierung
+\end_layout
+
+\begin_layout Standard
+Kovalente Bindung 
+\begin_inset Formula $\xrightarrow{\text{Übergang}}$
+\end_inset
+
+ Ionische Bindung
+\end_layout
+
+\begin_layout Standard
+TODO: Abb4 (nochmal) + Abb5
+\end_layout
+
+\begin_layout Itemize
+Hybridisierung: 
+\begin_inset Formula $sp,sp^{2},sp^{3}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Van-der-Waals-Wechselwirkung
+\end_layout
+
+\begin_layout Itemize
+Pauli-Abstoßung
+\end_layout
+
+\begin_layout Section
+Rotation und Schwingungen
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+E_{\text{rot}} & =\frac{\hbar^{2}}{2\Theta}J\left(J+1\right) & E_{\nu} & =\hbar\omega\left(\nu+\frac{1}{2}\right)\\
+\Delta E & <1\,\text{meV} & \Delta E & =1-300\,\text{meV}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+elektronische Vibrations- und Schwingungsübergänge bedingen einander
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Franck-Condon-Prinzip
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "END"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

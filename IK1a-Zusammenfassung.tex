@@ -1,0 +1,485 @@
+%% LyX 2.0.4 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[11pt,english,ngerman]{report}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage[a4paper]{geometry}
+\geometry{verbose,tmargin=2.6cm,bmargin=3.5cm,lmargin=2.6cm,rmargin=2.6cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\parskip}{\smallskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{babel}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[unicode=true,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=false,
+ breaklinks=true,pdfborder={0 0 0},backref=page,colorlinks=false]
+ {hyperref}
+\hypersetup{pdftitle={Experimentelle Quantenmechanik},
+ pdfauthor={Andreas Völklein},
+ pdfkeywords={Experimentelle Quantenmechanik, Physik}}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\providecommand{\LyX}{\texorpdfstring%
+  {L\kern-.1667em\lower.25em\hbox{Y}\kern-.125emX\@}
+  {LyX}}
+\newcommand{\noun}[1]{\textsc{#1}}
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+\@ifundefined{date}{}{\date{}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{tikz,pgfplots}
+%\usepackage{tikz-3dplot,polynom,cancel}
+\usetikzlibrary{matrix,arrows,calc,decorations,snakes}
+\usepackage{latexsym,stmaryrd,stackrel,icomma,braket}
+\usepackage[explicit]{titlesec}
+
+% Inhaltsverzeichnis
+\usepackage{tocloft}
+\tocloftpagestyle{fancy}
+
+\renewcommand{\cftchapindent}{1 em}
+\renewcommand{\cftchapnumwidth}{1.5 em}
+
+\renewcommand{\cftsecindent}{2.7 em}
+\renewcommand{\cftsecnumwidth}{2.5em}
+
+\renewcommand{\cftsubsecindent}{5.2 em}
+\renewcommand{\cftsubsecnumwidth}{3.8 em}
+
+\renewcommand{\cftsubsubsecindent}{9 em}
+\renewcommand{\cftsubsubsecnumwidth}{4.5 em}
+
+% Mathe-Operatoren
+\DeclareMathOperator*{\exsop}{\exists}
+\DeclareMathOperator*{\exsgop}{\exists!}
+\DeclareMathOperator*{\fallop}{\forall}
+\DeclareMathOperator*{\bcupdop}{\dot{\bigcup}}
+\DeclareMathOperator*{\bcapdop}{\dot{\bigcap}}
+
+% Rotieren
+\newcommand{\Rotate}[1]{
+\begin{tikzpicture}
+\node[rotate=90] {\ensuremath{#1}};
+\end{tikzpicture}
+}
+
+%QED-Zeichen (Box)
+\newcommand{\qed}{\ensuremath{\Box}}
+\newcommand{\qqed}[1][\arabic{chapter}.\arabic{section}\ifnum\arabic{subsection}>0{.\arabic{subsection}}\fi]{\hspace*{1mm}\hfill\qed\ensuremath{_{\text{#1}}}}
+
+% Mengen Modulo
+\newcommand{\moduloT}[2]{
+\mbox{\raisebox{0.6ex}{\ensuremath{\displaystyle #1}}
+{\hspace*{-1.5mm}\Large /}
+\raisebox{-0.6ex}{\hspace*{-1.5mm}\ensuremath{\displaystyle #2}}
+}}
+
+% Links Modulo
+\newcommand{\lmoduloT}[2]{
+\mbox{\raisebox{-0.6ex}{\ensuremath{\displaystyle #1}}
+{\hspace*{-1.5mm}\Large \ensuremath{\backslash}}
+\raisebox{0.6ex}{\hspace*{-1.5mm}\ensuremath{\displaystyle #2}}
+}}
+
+% Für Z/2Z, um nicht soviel schreiben zu müssen
+\newcommand{\modloT}[2]{\moduloT{ \mathbb{#1}}{#2\mathbb{#1}}}
+
+%Die Modulo-Kommandos in klein, für die Darstellungen unter Quantoren.
+\newcommand{\moduloScriptT}[2]{
+\mbox{\raisebox{0.4ex}{\scriptsize\ensuremath{\displaystyle #1}}
+{\hspace*{-1.5mm}\footnotesize /}
+\raisebox{-0.4ex}{\hspace*{-1.5mm}\scriptsize\ensuremath{\displaystyle #2}}
+}}
+
+\newcommand{\lmoduloScriptT}[2]{
+\mbox{\raisebox{-0.4ex}{\scriptsize\ensuremath{\displaystyle #1}}
+{\hspace*{-1.5mm}\footnotesize \ensuremath{\backslash}}
+\raisebox{0.4ex}{\hspace*{-1.5mm}\scriptsize\ensuremath{\displaystyle #2}}
+}}
+
+\newcommand{\modloScriptT}[2]{\moduloScriptT{ \mathbb{#1}}{#2\mathbb{#1}}}
+
+% stehendes Winkelzeichen
+\newcommand{\winkel}{
+\begin{tikzpicture}[scale=0.25]
+\draw ({-2+3^(1/2)},0) -- (0,1) -- ({2-3^(1/2)},0);
+\draw ($(0,1) + ({cos(235)*0.7},{sin(315)*0.7})$) arc (235:315:0.7);
+\end{tikzpicture}}
+
+% Wurzel mit Häkchen
+\newcommand{\hsqrt}[2][{}]{\setbox0=\hbox{$\sqrt[#1]{\phantom{|}\!\! #2\hspace*{1pt}}$}\dimen0=\ht0
+  \advance\dimen0-0.2\ht0
+  \setbox2=\hbox{\vrule height\ht0 depth -\dimen0}
+  {\box0\lower0.4pt\box2}}
+
+% alphabetische Aufzählung
+\newcounter{ale}
+\newcommand{\abc}{\stepcounter{ale}\item[\alph{ale})]}
+\newenvironment{abclist}{\begin{itemize} \setcounter{ale}{0}}{\end{itemize}}
+
+%klein-römische Aufzählung
+\newcounter{ale2}
+\newcommand{\iii}{\stepcounter{ale2}\item[\textnormal{\roman{ale2})}]}
+\newenvironment{iiilist}{\begin{itemize} \setcounter{ale2}{0}}{\end{itemize}}
+
+% Damit nicht immer "Kapitel 1" etc. über der Kapitelüberschrift steht
+\titleformat{\chapter}
+  {\huge\bfseries}
+  {\textrm{\thechapter} }{0pt}
+  {\textrm{#1} \thispagestyle{fancy}
+  }
+
+% Neudefinition der Abschnittsmarker für die Kopfzeile
+\renewcommand\partmark[1]{\markboth{#1}{}}
+\renewcommand\chaptermark[1]{\markright{\arabic{chapter} #1}}
+\renewcommand\sectionmark[1]{}
+\renewcommand\subsectionmark[1]{}
+
+% Kopf- und Fußzeile
+% Höhe der Kopfzeile
+\setlength{\headheight}{14pt}
+% obere Trennlinie
+%\renewcommand{\headrulewidth}{0.4pt}
+\fancyhf{} %alle Kopf- und Fußzeilenfelder bereinigen
+\fancyhead[L]{\textbf{IK1a - Experimentelle Quantenmechanik}} %Kopfzeile links
+%\fancyhead[C]{\leftmark} %zentrierte Kopfzeile
+\fancyhead[R]{\rightmark} %Kopfzeile rechts
+\fancyfoot[C]{\thepage\quad\!\!\!\slash\quad\!\!\!\pageref{END-front}} %Seitenzahl der Front-Matter
+
+\AtBeginDocument{
+  \def\labelitemi{\normalfont\bfseries{--}}
+  \def\labelitemii{\(\circ\)}
+  \def\labelitemiii{\(\triangleright\)}
+}
+
+\makeatother
+
+\begin{document}
+
+
+
+
+\global\long\def\norm#1{\left\lVert #1\right\rVert }
+
+
+\global\long\def\abs#1{\left\lvert #1\right\rvert }
+
+
+\global\long\def\mins{\text{-}}
+
+
+\selectlanguage{english}%
+\global\long\def\BRA#1{\Bra{#1}}
+
+
+\global\long\def\KET#1{\Ket{#1}}
+
+
+\global\long\def\BraKet#1{\Braket{#1}}
+
+
+\selectlanguage{ngerman}%
+\global\long\def\exs{\exsop}
+
+
+\global\long\def\exsg{\exsgop}
+
+
+\global\long\def\fall{\fallop}
+
+
+\global\long\def\bcupd{\bcupdop}
+
+
+\global\long\def\bcapd{\bcapdop}
+
+
+\global\long\def\sr#1#2#3{\underset{#3}{\overset{#2}{#1}}}
+
+
+\global\long\def\dd{\textnormal{d}}
+
+
+\global\long\def\ii{\textbf{i}}
+
+
+\global\long\def\modulo#1#2{\moduloT{#1}{#2}}
+
+
+\global\long\def\lmodulo#1#2{\lmoduloT{#1}{#2}}
+
+
+\global\long\def\modlo#1#2{\modloT{#1}{#2}}
+
+
+\global\long\def\moduloScript#1#2{\moduloScriptT{#1}{#2}}
+
+
+\global\long\def\lmoduloScript#1#2{\lmoduloScriptT{#1}{#2}}
+
+
+\global\long\def\modloScript#1#2{\modloScriptT{#1}{#2}}
+
+
+\pagenumbering{roman}
+
+
+\title{\textbf{\Huge \vspace*{-45mm}}\\
+\textbf{\Huge Integrierter Kurs Ia}\\
+\textbf{\Huge Experimentelle Quantenmechanik}\\
+\textbf{\Huge Zusammenfassung}}
+
+
+\author{\textit{\small Vorlesung von}\\
+\textit{\noun{\small Prof. Dr. Jascha Repp}}\textit{\small }\\
+\textit{\small im Sommersemester 2012}\\
+\textit{\small Überarbeitung und Textsatz in \LyX{} von}\\
+\textit{\noun{\small Andreas Völklein}}\\
+{\small \vspace*{10mm}}\\
+{\small \includegraphics[clip,width=15cm]{unir}}\textit{\noun{\small }}\\
+{\small \vspace*{3mm}}\\
+Stand: \today}
+
+\maketitle
+{\small \newpage{}}\fancyhead[R]{Inhaltsverzeichnis}
+\fancyhead[C]{}
+
+\tableofcontents{}\label{END-front}\newpage{}\pagenumbering{arabic}
+\fancyfoot[C]{\thepage\quad\!\!\!\slash\quad\!\!\!\pageref{END}} % Seitenzahl des Hauptteils
+\fancyhead[R]{\rightmark}
+%\fancyhead[C]{\leftmark}%DATE: Mo 16.04.2012
+
+%\setcounter{chapter}{-1}
+
+
+\chapter{Entwicklung der Quantenmechanik}
+
+
+\section{Meilensteine der Entwicklung der Quantenmechanik}
+\begin{itemize}
+\item Schwarzkörperstrahlung $\Rightarrow$ $\Delta E=h\nu$ (Planck)
+\item Photoelektrischer Effekt $\Rightarrow$ $\Delta E=h\nu$
+\item Compton-Effekt $\Rightarrow$ Röntgenstrahlung zeigt Teilchencharakter:
+$\vec{p}=\hbar\vec{k}$
+\item de-Broglie-Wellenlänge: ${\displaystyle \lambda=\frac{h}{p}}$
+\item Davisson, Germer: Elektronenbeugung
+\item Stern, Gerlach: Quantisierung der Ausrichtung des magnetischen Momentes
+\end{itemize}
+
+\section{Grundlagen der Quantenmechanik}
+
+\begin{align*}
+\varepsilon_{0} & =h\nu & \Rightarrow\quad E_{\text{op}} & =\ii\hbar\partial_{t}\\
+\vec{p} & =\hbar\vec{k} & \Rightarrow\quad\vec{p}_{\text{op}} & =-\ii\hbar\vec{\nabla}
+\end{align*}
+
+
+Schrödingergleichung:
+\begin{align*}
+-\frac{\hbar^{2}}{2m}\vec{\nabla}^{2}\psi+V\left(\vec{r},t\right)\psi & =\ii\hbar\partial_{t}\psi=E\psi
+\end{align*}
+
+
+Messprozess: Observablen, Wahrscheinlichkeitsinterpretation und Kollaps
+von $\psi$
+
+
+\chapter{Ein Elektron im Kernfeld: Wasserstoff}
+
+
+\section{Lösungen der Schrödingergleichung für Coulomb-Potential}
+\begin{itemize}
+\item Zentralpotential $\Rightarrow$ Separation der Variablen
+
+\begin{itemize}
+\item Drehimpulserhaltung
+\item Winkelteil $\Rightarrow$ Eigenfunktionen $Y_{lm}$ mit $\hat{L}^{2}=\hbar^{2}\left(l+1\right)l$
+und $L_{z}=m_{l}\hbar$
+\item Entartung bezüglich $m_{l}$
+\end{itemize}
+\item Radialteil für Coulomb-Potential
+
+\begin{itemize}
+\item zufällige Entartung für $l$ (Radialteil hängt trotzdem von $l$ ab)
+\end{itemize}
+\item Quantenzahlen:
+\begin{align*}
+n & =1,2,\ldots\\
+l & =0,1,\ldots\\
+m & =-l,-l+1,\ldots,l-1,l
+\end{align*}
+
+\item Energie:
+\begin{align*}
+E & =-E_{\text{Ry}}\cdot\frac{Z^{2}}{n^{2}} & E_{\text{Ry}} & \approx13{,}6\,\text{eV}
+\end{align*}
+
+\item Atomorbitale: $1s,\ 2s,\ 2p,\ 3s,\ldots$
+\item Zusätzlich: Spin des Elektrons ${\displaystyle s=\frac{1}{2}}$, ${\displaystyle m_{s}=-\frac{1}{2},\ldots,\frac{1}{2}}$,
+$g_{s}\approx2$\\
+Einheitliche Algebra für alle quantenmechanischen Drehimpulse
+\end{itemize}
+
+\section{Feinstruktur, Hyperfeinstruktur und Lamb-Verschiebung}
+\begin{itemize}
+\item Feinstruktur: Wechselwirkung zwischen Spin und Bahndrehimpuls\\
+Kommt aus der Relativistik\\
++ weitere relativistische Korrekturen
+\item Spin-Bahn-Kopplung: Spin und Bahndrehimpuls möglichst antiparallel
+\item Lamb-Shift: QED-Effekt
+\item Hyperfeinstruktur: Wechselwirkung zwischen Kernmoment und Elektronenhülle
+\begin{align*}
+\Delta E_{\text{HFS}} & \approx\mu\text{eV}
+\end{align*}
+
+\end{itemize}
+
+\section{Wechselwirkung mit Feldern}
+\begin{itemize}
+\item Statisch
+
+\begin{itemize}
+\item Zeeman: ${\displaystyle \Delta E=\mu_{B}g_{s}\vec{B}\frac{\vec{s}_{\text{op}}}{\hbar}}$;
+analog bei $\vec{l}$ bzw. $\vec{j}$ ($g_{l}=1$, $g_{s}\approx2$,
+$1\le g_{j}\le2$)
+\item Stark: quadratischer Effekt; linear bei Entartung bezüglich $l$\\
+$\rightarrow$ generiert Superpositionszustände
+\end{itemize}
+\item oszillierende Felder, also Wechselwirkung mit Licht
+
+\begin{itemize}
+\item Einstein-Koeffizienten: $A_{ik},B_{ki},B_{ik}$ mit $B_{ik}=B_{ki}$\\
+Laser durch Besetzungsinversion
+\item optische Auswahlregeln\\
+Elektrischer Dipol: $\Delta l=\pm1$, $\Delta m_{l}\in\left\{ 0,\pm1\right\} $
+(einfachster Fall)
+\item Linienbreiten
+
+\begin{itemize}
+\item endliche Lebensdauer $\rightarrow$ Lorentz mit ${\displaystyle \Gamma\sim\frac{1}{\tau}}$
+\item Doppler $\rightarrow$ Gauß $\rightarrow$ kann durch 2 Photonenabsorbtion
+eliminiert werden
+\item Stoß $\rightarrow$ Abhängig vom Druck $\rightarrow$ eliminierbar
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\chapter{Mehrere Elektronen im Kernfeld}
+
+
+\section{Fermionen, Bosonen und das Pauli-Prinzip}
+\begin{itemize}
+\item Quantenmechanische Teilchen sind ununterscheidbar $\Rightarrow$ Beschreibung
+durch \emph{eine} Wellenfunktion
+\item Fermionen: halbzahliger Spin\\
+jeder quantenmechanische Zustand ist maximal \emph{einfach} durch
+Fermionen besetzbar\\
+$\Rightarrow$ Pauli-Verbot
+\item Fermi-Dirac-Verteilung
+\begin{align*}
+n\left(E\right) & =\frac{1}{\exp\left(\frac{E-\mu}{k_{B}T}\right)+1}
+\end{align*}
+
+\item Fermionen: Gesamtwellenfunktion antisymmetrisch gegenüber Vertauschung
+von je zwei Teilchen\\
+$\rightarrow$ Antisymmetrie entweder in Spin- oder im Ortswellenfunktion
+\end{itemize}
+\noindent \begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+antisymmetrisch & $\frac{1}{\sqrt{2}}\left(\uparrow\downarrow-\downarrow\uparrow\right)$ & Singulett\tabularnewline
+\hline 
+\multirow{3}{*}{symmetrisch} & $\uparrow\uparrow$ & \multirow{3}{*}{Triplett}\tabularnewline
+\cline{2-2} 
+ & $\frac{1}{\sqrt{2}}\left(\uparrow\downarrow+\downarrow\uparrow\right)$ & \tabularnewline
+\cline{2-2} 
+ & $\downarrow\downarrow$ & \tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+\begin{itemize}
+\item Korrelation der Elektronen hängt von der Symmetrie der Ortswellenfunktion
+ab $\Rightarrow$ Austausch-Wechselwirkung und Austausch-Energie
+\end{itemize}
+
+\section{Helium-Atom}
+\begin{itemize}
+\item getrennte Singulett- und Triplett-Systeme bei unterschiedlicher Energie
+\item optische Auswahlregeln verbieten Intersystemübergänge
+\item weniger streng bei schwereren Atomen durch die $L$-$S$-Kopplung
+\end{itemize}
+
+\section{Alkali-Atome}
+\begin{itemize}
+\item einfaches Modell: Abschirmung der Kernladung durch innere Schalen
+\item Wasserstoffähnlich, Aufhebung der $l$-Entartung
+\end{itemize}
+
+\section{Drehimpulskopplung}
+
+leichte Atome: $L$-$S$-Kopplung $\xrightarrow{\text{kontinuierlicher Übergang}}$
+schwere Atome: $j$-$j$-Kopplung
+
+
+\section{Hund'sche Regeln und das Periodensystem}
+\begin{itemize}
+\item Schalenmodell, Schalen $K,L,M,\ldots$
+\item Hund'sche Regeln geordnet nach Priorität:
+
+\begin{enumerate}
+\item Volle (Unter-)Schalen $\Rightarrow$ $S=0$, $L=0$
+\item $S=\text{max}$
+\item $L=\text{max}$
+\item $<$ halb voll: $J=\abs{L-S}$; $>$ halb voll: $J=L+S$
+\end{enumerate}
+\end{itemize}
+
+\chapter{Moleküle}
+
+Born-Oppenheimer-Näherung
+
+
+\section{Das Wasserstoff-Molekül $\text{H}_{2}$}
+\begin{enumerate}
+\item generiere Molekülorbitale aus Atomorbitalen, zum Beispiel mit LCAO\\
+$\rightarrow$ bindende ($=$gerade $\psi$) und antibindende ($=$ungerade
+$\psi$) Zustände
+\item generiere Mehrteilchen-$\psi$ aus Einteilchen-$\psi$\\
+Besonderheit für $H_{2}$: Heitler-London-Ansatz
+\end{enumerate}
+Energieschemata für Molekülorbitale:\\
+TODO: Abb4
+
+
+\section{Chemische Bindung und Hybridisierung}
+
+Kovalente Bindung $\xrightarrow{\text{Übergang}}$ Ionische Bindung
+
+TODO: Abb4 (nochmal) + Abb5
+\begin{itemize}
+\item Hybridisierung: $sp,sp^{2},sp^{3}$
+\item Van-der-Waals-Wechselwirkung
+\item Pauli-Abstoßung
+\end{itemize}
+
+\section{Rotation und Schwingungen}
+
+\begin{align*}
+E_{\text{rot}} & =\frac{\hbar^{2}}{2\Theta}J\left(J+1\right) & E_{\nu} & =\hbar\omega\left(\nu+\frac{1}{2}\right)\\
+\Delta E & <1\,\text{meV} & \Delta E & =1-300\,\text{meV}
+\end{align*}
+
+
+elektronische Vibrations- und Schwingungsübergänge bedingen einander\\
+$\rightarrow$ Franck-Condon-Prinzip
+
+\label{END}
+\end{document}
